@@ -34,7 +34,7 @@ In theory I can turn the LG tv on, and set the volume and input via RS232 interf
 
 It could even set a timer for the show length and turn the TV back off. We can ask Plex if something is playing, but we can't tell if a Youtube video is still playing in the Roku app.
 
-# More commands
+## More commands
 
 "Play a half hour show"
 
