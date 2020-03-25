@@ -53,7 +53,7 @@ class PlayerController():
     (either didn't find one or rewound the watched counter)
     """
     def playViaPlex(self, show):
-        print("Playing via plex")
+        print("Playing {0} via plex".format(show.plexname))
         plexShow = self.plex.getShow(show.plexname)
 
         if not plexShow:

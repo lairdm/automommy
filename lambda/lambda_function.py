@@ -48,34 +48,48 @@ def lambda_handler(event, context):
     logger.info("Directive:")
     logger.info(json.dumps(event, indent=4, sort_keys=True))
     
-    showstable = dynamo_client.Table(os.environ['DYNAMODB_TABLE'])
+    showstable = dynamo_client.Table(os.environ['DYNAMODB_SHOWS_TABLE'])
+    locationstable = dynamo_client.Table(os.environ['DYNAMODB_LOCATIONS_TABLE'])
     
     intent_name = event['request']['intent']['name']
     
     if intent_name == "dialGate":
         post_message(sqs_client, 'dialGate', queue_url)
         message = "seventh chevron locked. Wormhole active."
-    elif intent_name == "playOnTv":
+    elif intent_name == "playOnTv" or intent_name == "playInLocation":
         post_message(sqs_client, 'playOnTv', queue_url)
         showname = event['request']['intent']['slots']['showName']['value'].lower()
+        playlocation = event['request']['intent']['slots'].get('playLocation', {'value': 'default'})['value'].lower()
         table_row = showstable.get_item(
             Key={
                 'showname': showname
             })
+        location_row = locationstable.get_item(
+            Key={
+                'location': playlocation
+            })
+        logger.info("intent: " + intent_name)
+        logger.info("location " + playlocation)
         logger.info("show name " + showname)
         logger.info("show slug:")
         logger.info(table_row)
-        if "Item" in table_row:
+        
+        if "Item" not in location_row:
+            logger.error("Unknown location: " + playlocation)
+        elif "Item" not in table_row:
+            logger.info("Unknown show: " + showname)
+            message = "Sorry, unknown show or movie"
+        
+        else:
             logger.info(table_row['Item']['slug'])
+            logger.info(location_row['Item']['slug'])
             sns_client.publish(
                 TargetArn=os.environ['SNS_TOPIC'],
-                Message=json.dumps({'action': 'play', 'show': table_row['Item']['slug']}))
+                Message=json.dumps({'action': 'play', 'show': table_row['Item']['slug'], 'location': location_row['Item']['slug']}))
             message = "Make it so"
-        else:
-            logger.info("Unknown show")
-            message = "Sorry, unknown show or movie"
     else:
         message = "Unknown"
         
     speechlet = build_speechlet_response("Player Status", message, "", "true")
     return build_response({}, speechlet)
+
