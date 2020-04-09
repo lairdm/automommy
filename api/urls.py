@@ -1,6 +1,7 @@
 from django.urls import path
-from api import views
+from api.views import sns, launcher
 
 urlpatterns = [
-    path('sns/', views.SNSView.as_view()),
+    path('sns/', sns.SNSView.as_view()),
+    path('launch/<show>/<location>/', launcher.Launcher.as_view())
 ]
