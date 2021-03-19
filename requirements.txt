@@ -3,7 +3,7 @@ certifi==2019.11.28
 cffi==1.14.0
 chardet==3.0.4
 cryptography==2.8
-Django==3.0.3
+Django==3.1.6
 django-sns-view==0.1.2
 idna==2.8
 pem==20.1.0
