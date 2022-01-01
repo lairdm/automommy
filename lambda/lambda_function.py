@@ -93,3 +93,31 @@ def lambda_handler(event, context):
     speechlet = build_speechlet_response("Player Status", message, "", "true")
     return build_response({}, speechlet)
 
+def sync_handler(event, context):
+    logger.info("Request: %s", event)
+    response_code = 200
+
+    http_method = event.get('httpMethod')
+    query_string = event.get('queryStringParameters')
+    headers = event.get('headers')
+    body = event.get('body')
+
+    action = {'action': 'sync'}
+    
+    if body is not None:
+        data = json.loads(body)
+
+        if 'torrent_id' in data:
+            action['torrent_id'] = data['torrent_id']
+
+    sns_client.publish(
+        TargetArn=os.environ['SNS_TOPIC'],
+        Message=json.dumps(action))
+
+    response = {
+        'statusCode': response_code,
+        'body': json.dumps(action)
+    }
+
+    logger.info("Response: %s", response)
+    return response

@@ -16,7 +16,7 @@ RUN mkdir -p /torrents \
 RUN mkdir -p /code/.ssh \
     && chown client /code/.ssh
 
-COPY install-packages.sh /code/
+COPY bin/install-packages.sh /code/
 RUN ./install-packages.sh
 
 USER client
