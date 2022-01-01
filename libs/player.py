@@ -21,6 +21,7 @@ class PlayerController():
     """
     def playShow(self, showName):
         show = self.database.fetchShow(showName)
+        print(f"show {showName}")
         pprint(vars(show))
             
         if not show:
