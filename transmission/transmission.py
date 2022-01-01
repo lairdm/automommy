@@ -17,13 +17,12 @@ def getConnection():
     return c
 
 def sync_torrent(torrent_id=None):
-    subprocess.run(["python", rescan_script])
 
     if torrent_id == None:
 #        rsync -avP --delete feral:private/deluge/data/* /vol/torrents/
         remote_file = remote_host + ":" + remote_path + "*"
 
-        p = subprocess.Popen(["rsync", "-navP", "--delete", remote_file, local_path])
+        p = subprocess.Popen(["rsync", "-avP", "--delete", remote_file, local_path])
         sts = os.waitpid(p.pid, 0)
     else:
         connection = getConnection()
@@ -40,8 +39,6 @@ def sync_torrent(torrent_id=None):
         p = subprocess.Popen(["scp", "-Tr", remote_file, local_path])
         sts = os.waitpid(p.pid, 0)
 
-    subprocess.run(["python", rescan_script])
-
 
 def sync_plex():
 
@@ -57,4 +54,6 @@ if __name__ == "__main__":
 
     print(torrent_id)
     sync_torrent(torrent_id)
+
+    sync_plex()
     

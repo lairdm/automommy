@@ -1,0 +1,5 @@
+Host *
+     StrictHostKeyChecking no
+     UserKnownHostsFile /dev/null
+     IdentityFile /code/.ssh/identity
+     

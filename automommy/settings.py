@@ -76,9 +76,17 @@ WSGI_APPLICATION = 'automommy.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': secrets.database,
+        'USER': secrets.username,
+        'PASSWORD': secrets.password,
+        'HOST': secrets.host,
+        'PORT': secrets.port,
     }
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
 }
 
 
@@ -123,8 +131,8 @@ STATIC_URL = '/static/'
 Q_CLUSTER = {
     'name': 'DjangORM',
     'workers': 4,
-#    'timeout': 90,
-#    'retry': 120,
+    'timeout': 90,
+    'retry': 120,
     'queue_limit': 50,
     'bulk': 10,
     'orm': 'default'
