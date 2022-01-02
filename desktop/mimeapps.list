@@ -1,0 +1,3 @@
+[Default Applications]
+# there might be more other default applications defined, leave them unchanged.
+x-scheme-handler/magnet=Automommy.desktop

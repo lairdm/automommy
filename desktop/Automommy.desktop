@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=AutomommyTransfer
+Comment=executes script to upload magnet link to automommy
+Exec=/home/lairdm/magnet/MagnetLinkTransfer.sh %u
+Icon=utilities-terminal
+Terminal=true
+Type=Application
+Categories=Application;
