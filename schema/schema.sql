@@ -1,4 +1,4 @@
-CREATE TABLE "shows" (
+CREATE TABLE IF NOT EXISTS "shows" (
 	"showid" serial NOT NULL,
 	"name" varchar(255) NOT NULL UNIQUE,
 	"showtype" varchar(255) NOT NULL DEFAULT 'tv',
@@ -9,9 +9,7 @@ CREATE TABLE "shows" (
   OIDS=FALSE
 );
 
-
-
-CREATE TABLE "links" (
+CREATE TABLE IF NOT EXISTS "links" (
 	"linkid" serial NOT NULL,
 	"show" integer NOT NULL,
 	"linktype" varchar(255) NOT NULL,
@@ -21,18 +19,26 @@ CREATE TABLE "links" (
   OIDS=FALSE
 );
 
-
-
-CREATE TABLE "lastshown" (
+CREATE TABLE IF NOT EXISTS "lastshown" (
 	"show" integer NOT NULL UNIQUE,
 	"lastid" integer NOT NULL
 ) WITH (
   OIDS=FALSE
 );
 
+DO $$
+BEGIN
+    ALTER TABLE "links" ADD CONSTRAINT "links_fk0" FOREIGN KEY ("show") REFERENCES "shows"("showid");
+EXCEPTION
+    WHEN duplicate_object THEN
+        RAISE NOTICE 'Constraint already exists. Ignoring...';
+END$$;
 
-ALTER TABLE "links" ADD CONSTRAINT "links_fk0" FOREIGN KEY ("show") REFERENCES "shows"("showid");
-
-ALTER TABLE "lastshown" ADD CONSTRAINT "lastshown_fk0" FOREIGN KEY ("show") REFERENCES "shows"("showid");
-
+DO $$
+BEGIN
+    ALTER TABLE "lastshown" ADD CONSTRAINT "lastshown_fk0" FOREIGN KEY ("show") REFERENCES "shows"("showid");
+EXCEPTION
+    WHEN duplicate_object THEN
+        RAISE NOTICE 'Constraint already exists. Ignoring...';
+END$$;
 

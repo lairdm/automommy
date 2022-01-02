@@ -25,7 +25,6 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PATH="/code/.local/bin:${PATH}" \
     PYTHONPATH="/code"
 ENV PYTHONUNBUFFERED=1
-ENV TRANSMISSION_SCRIPT="/code/transmission/transmission.py"
 
 COPY --chown=client:client requirements.txt /code/
 
