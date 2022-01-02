@@ -58,6 +58,12 @@ Is there a way to inject shows in to the launching of the Netflix app on a Roku?
 
 The code is a mess. But it works. And it's not in production outside our household. ¯\_(ツ)_/¯
 
+## Auto cleanup of Transmission files
+
+Idea: https://unix.stackexchange.com/a/371869
+
+Use the RPC api to do similar.
+
 # Next Steps
 
 Let's be honest, probably none. Once it works I'll probably leave it alone until it breaks or I need a new feature.
