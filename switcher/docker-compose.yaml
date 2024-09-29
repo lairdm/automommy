@@ -1,0 +1,14 @@
+version: '2.4'
+
+services:
+  switcher:
+    build: ./
+    image: monitor_switcher
+    privileged: true
+    container_name: monitor_switcher
+    mem_limit: 100mb
+    restart: always
+    device_cgroup_rules:
+      - 'c *:* rmw'
+    volumes:
+      - /dev:/dev
