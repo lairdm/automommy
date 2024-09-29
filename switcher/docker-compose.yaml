@@ -4,7 +4,6 @@ services:
   switcher:
     build: ./
     image: monitor_switcher
-    privileged: true
     container_name: monitor_switcher
     mem_limit: 100mb
     restart: always
